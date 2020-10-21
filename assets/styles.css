@@ -1,0 +1,51 @@
+.body{
+margin: 0;
+}
+.little_plots{
+    height: 400px;
+    width: 400px;
+    margin: 4%;
+    border: 1px solid #808080;
+    max-height : inherit;
+    box-sizing : border-box;
+}
+
+.dcc_tabs_class{
+    height: 2.5em;
+    margin: 10px;
+    display : flex;
+
+}
+
+
+@media screen and (min-width: 0px) and (max-width: 1500px){
+
+#layout_pie_charts_and_http_codes{
+    display : flex;
+    flex-direction : column;
+}
+
+.dcc_tabs_class{
+    height: 10em;
+}
+
+.little_plots{
+    margin: 10px;
+    padding: 0;
+}
+
+.six.columns{
+    width: 95%;
+}
+
+#little_plots{
+    padding: 0;
+    margin: 0 auto;
+}
+
+.column, .columns {
+    margin: 0 auto;
+}
+
+}
+
