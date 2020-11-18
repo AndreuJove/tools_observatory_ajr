@@ -1,4 +1,5 @@
 import json
+import pandas as pd
 
 # Return a list of the value of a key in a list of dictionaries.
 def extract_value_from_list_of_dicts(list_dicts, key):
@@ -108,26 +109,26 @@ def extract_problematic_extensions_from_json_file(data_problematic):
     for t in data_problematic:
         for problem in problematics_extensions:
             if t['first_url_tool'].endswith(problem) or t['first_url_tool'].startswith(problem):
-                problematic_extensions_count[problematics_extensions.index(
-                    problem)] += 1
-    return problematics_extensions, problematic_extensions_count
+                problematic_extensions_count[problematics_extensions.index(problem)] += 1
+    d = {'Extensions':problematics_extensions,'Count':problematic_extensions_count}
+    df_extensions = pd.DataFrame(d, columns = ['Extensions','Count'])
+    return df_extensions
 
 #Extract the the arrays of the HTTP codes and exceptions and their respectives counts:
 def extract_http_codes_and_exceptions_from_json_file(data):
-    http_codes, http_codes_count, exceptions, exceptions_count = ([] for i in range(4))
+    http_codes_scrapy, exceptions_scrapy = ({} for i in range(2))
     for t in data:
         for a in t.items():
             if a[0].startswith("downloader/response_status_count"):
-                http_codes.append(a[0].split("/")[-1])
-                http_codes_count.append(a[1])
+                http_codes_scrapy[a[0].split("/")[-1]] = a[1]
             elif a[0].startswith("downloader/exception_type_count"):
-                exceptions.append(a[0].split(".")[-1])
-                exceptions_count.append(a[1])
-    return http_codes, http_codes_count, exceptions, exceptions_count
+                exceptions_scrapy[a[0].split(".")[-1]] = a[1]
+    df_codes = pd.DataFrame(list(http_codes_scrapy.items()),columns = ['HTTP Codes','Count']) 
+    df_exceptions = pd.DataFrame(list(exceptions_scrapy.items()),columns = ['Exceptions','Count'])
+    return df_codes, df_exceptions
 
-http_codes, http_codes_count, exceptions, exceptions_count = extract_http_codes_and_exceptions_from_json_file(codes_and_exceptions)
-problematics_extensions, problematic_extensions_count = extract_problematic_extensions_from_json_file(data_problematic)
-
+df_codes, df_exceptions = extract_http_codes_and_exceptions_from_json_file(codes_and_exceptions)
+df_extensions = extract_problematic_extensions_from_json_file(data_problematic)
 
 """
 
@@ -143,22 +144,18 @@ with open(path_all_dynamic_percentages, "r") as fp:
 percentages = [y["dynamic_percentages"]
                for y in total_dynamic_percentages if "dynamic_percentages" in y][0]
 
-
-#The count of domains of the available websites:
-path_to_domains_count = "../websites_analysis/output_data/domains_count_satisfactory_websites.json"
-with open(path_to_domains_count, "r") as l:
-    domains_count = json.load(l)
-
+def get_the_count_of_one_domain(domain):
+    #The count of domains of the available websites:
+    path_to_domains_count = "../websites_analysis/output_data/domains_count_satisfactory_websites.json"
+    with open(path_to_domains_count, "r") as l:
+        domains_count = json.load(l)
+    index_domain = domains_count[0]['Domain'].index(domain)
+    return domains_count[1]['Count'][index_domain]
 
 #Extract percentages of change of primary classification:
 path_groupation_dynamic_percentages = "../websites_analysis/output_data/dynamic_percentages_domains.json"
 with open(path_groupation_dynamic_percentages, "r") as fp:
     dynamic_percentages_groupation = json.load(fp)
-
-#Get the value_count of a domain:
-def get_count_of_a_domain(domains_count_list, domain):
-    index_domain = domains_count_list[0]['Domain'].index(domain)
-    return domains_count_list[1]['Count'][index_domain]
 
 
 #Extract each number of percentages of the classification (universities, generic):
@@ -168,3 +165,17 @@ def extract_number_of_domains(index, name):
         for a in list(t.values())[0]:
             final_list.append(a)
     return final_list
+
+
+
+"""
+New homepages -> JavaScript!
+
+"""
+
+
+metrics = "../api_extraction/output_data/metrics_api_v.json"
+with open(metrics, "r") as fp:
+    metrics = json.load(fp)
+
+df_total_percentages = pd.read_json("new_input_data/final_df_years_percentages.json")

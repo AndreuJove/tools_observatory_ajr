@@ -40,7 +40,7 @@ tab_selected_style = {
 }
 
 app.layout = html.Div([
-    dcc.Tabs(id="tabs-styled-with-inline", value='tab-1',
+    dcc.Tabs(id="tabs-styled-with-inline", value='tab-2',
              children=[
                 dcc.Tab(label='Domains and Metrics', value='tab-1',
                         style=tab_style, selected_style=tab_selected_style),
@@ -109,7 +109,7 @@ tab_domains = html.Div(
                           style={'height': '820px', 'margin': '1%', 'border': '1px solid #808080',
                                  'maxHeight': 'inherit'},
                           config={"displaylogo": False, "displayModeBar": False, "showTips": False,
-                                    'modeBarButtonsToRemove': ['pan2d', 'lasso2d']}),
+                                  'modeBarButtonsToRemove': ['pan2d', 'lasso2d']}),
                 html.Div(
                     id='layout_pies',
                     className='six columns',
@@ -172,6 +172,14 @@ tab_acces = html.Div(
             children=[
                 html.Div(
                     children=[
+                        html.Div(
+                            children=[
+                                dcc.Graph(id="histogram_ok_not_ok",
+                                          className="plot_ok_not_ok",
+                                          figure=create_pie_chart(
+                                                      [23000, 3000], ['OK', 'Not OK'], "Access Websites"),
+                                          config={"displaylogo": False, 'modeBarButtonsToRemove': ['pan2d', 'lasso2d']}),
+                            ]),
                         dcc.RadioItems(
                             id='data-view',
                             options=[
@@ -199,7 +207,7 @@ tab_acces = html.Div(
                                                             "HTTP Codes response count recieved",
                                                             '#7bc0f7'),
                             style={'height': '750px', 'margin': '1%', 'border': '1px solid #808080',
-                                         'maxHeight': 'inherit'},
+                                   'maxHeight': 'inherit'},
                             config={"displaylogo": False, "displayModeBar": False, "showTips": False,
                                     'modeBarButtonsToRemove': ['pan2d', 'lasso2d']}
                         ),
@@ -297,6 +305,7 @@ Callback in tab_domains:
 
 """
 
+
 @app.callback(
     Output(component_id='my_checklist', component_property='value'),
     [Input(component_id='all_button', component_property='n_clicks'),
@@ -310,6 +319,7 @@ def update_layout(all_n_clicks, clear_n_clicks):
         return []
     elif changed_id == "all_button.n_clicks":
         return ['university', 'institucional', 'collections',  'generic', 'lifeScience', 'others']
+
 
 @app.callback(
     [Output(component_id='pie_chart_1', component_property='figure'),
@@ -348,6 +358,8 @@ def update_graph(values):
 """
 Callback for tab access:
 """
+
+
 @app.callback(dash.dependencies.Output('plot_to_change', 'figure'),
               [dash.dependencies.Input('data-view', 'value')])
 def update_fig(value):
@@ -377,6 +389,8 @@ def update_fig(value):
 """
 Callback for tab JavaScript:
 """
+
+
 @app.callback([Output('boxplot_plot', 'figure'), Output('histogram_dynamic_percentages', 'figure'), Output('boxplot_plot', 'style')],
               [dash.dependencies.Input('data_view_javascript', 'value')])
 def update_fig(value):

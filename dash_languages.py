@@ -25,6 +25,8 @@ df_final_languages = pd.read_json(
     '../bbdd_jmf/final_df_languages.json')
 df_final_domains = pd.read_json('../bbdd_jmf/final_df_domains.json')
 
+df_final_countries = pd.read_json('../bbdd_jmf/final_df_countries_email.json')
+
 # print(
 #     fig_animation_languages.layout.updatemenus[0].buttons[0].args[1]["frame"])
 # # for t in fig_animation_languages['layout']['sliders'][0]['steps']:
@@ -80,6 +82,8 @@ app.layout = html.Div(
                                  'value': 'languages'},
                                 {'label': 'Domains',
                                  'value': 'domains'},
+                                {'label': 'Countries',
+                                 'value': 'countries'},
                             ],
                             value='languages',
                             labelStyle={
@@ -113,6 +117,8 @@ def update_fig(value):
         return create_px_bar_animated_frame(df_final_languages, "Cumulative_count", "Language", "Evolution of programming languages in Bioinformatics Research Software")
     elif value == "domains":
         return create_px_bar_animated_frame(df_final_domains, "Cumulative_count", "Domain", "Evolution of domains in Bioinformatics Research Software")
-
+    elif value == "countries":
+        return create_px_bar_animated_frame(df_final_countries, "Cumulative_count", "Country", "Evolution of countries in Bioinformatics Research Software")
+    
 if __name__ == '__main__':
     app.run_server(debug=True)
