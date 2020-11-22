@@ -1,6 +1,15 @@
 .body{
 margin: 0;
+font-size: 35px;
 }
+
+
+.dcc_tabs_class{
+    height: 2.5em;
+    margin: 10px;
+    display : flex;
+}
+
 .little_plots{
     height: 400px;
     width: 400px;
@@ -11,8 +20,8 @@ margin: 0;
 }
 
 .plot_ok_not_ok{
-    height: 400px;
-    width: 400px;
+    height: 440px;
+    width: 440px;
     margin: 2% auto;
     border: 1px solid #808080;
     max-height : inherit;
@@ -20,23 +29,39 @@ margin: 0;
 }
 
 
+/*Styles for access.py*/
+
+#average_access_box_plot{
+    border: 1px solid #808080;
+    width: 550px;
+    height: 800px;
+    margin: 2%;
+}
+
 
 .histogram_ok_not_ok{
     border: 1px solid #808080;
-    height: 450px;
-    width: 800px;
-    margin: 10px;
+    width: 95%;
+    height: 600px;
+    margin: 1%;
     border: 1px solid #808080;
     max-height : inherit;
     box-sizing : border-box;
 }
 
-.dcc_tabs_class{
-    height: 2.5em;
-    margin: 10px;
-    display : flex;
+#histogram_days_up{
+    border: 1px solid #808080;
+    width: 50%;
+    height: 600px;
+    margin: 1%;
+    border: 1px solid #808080;
+    max-height : inherit;
+    box-sizing : border-box;
 
 }
+
+
+/*Styles for javascript.py*/
 
 #div_top_dynamic_websites{
     display: flex;
@@ -56,6 +81,11 @@ margin: 0;
 
 @media screen and (min-width: 451px) and (max-width: 1500px){
 
+
+#pie_ok_not_ok_markdown{
+    display : flex;
+    flex-direction : column;
+}
 
 #layout_pie_charts_and_http_codes{
     display : flex;
@@ -93,9 +123,19 @@ margin: 0;
 
 @media screen and (min-width: 0px) and (max-width: 450px){
 
+/*Styles for javascript*/
+
 #div_top_dynamic_websites{
     display: flex;
     flex-direction : column;
 }
+
+#pie_ok_not_ok_markdown{
+    display: flex;
+    flex-direction : column;
+
+}
+
+
 }
 

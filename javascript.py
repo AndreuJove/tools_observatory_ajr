@@ -36,7 +36,7 @@ app.prevent_initial_callbacks = True
 df_static = df_total_percentages[df_total_percentages['percentage_of_change']<4]
 df_javaScript = df_total_percentages[df_total_percentages['percentage_of_change']>4]
 
-df_color_procedence = graphs.fill_df_color_procedence(df_javaScript)
+df_color_procedence = graphs.fill_df_color_procedence(df_total_percentages)
 df_only_years = df_color_procedence[df_color_procedence['year']!= ""]
 
 app.layout = html.Div(
@@ -146,7 +146,9 @@ app.layout = html.Div(
                                             
                                             *tool and the percentage*
 
-                                            *of change.*
+                                            *of change of the*
+
+                                            *website of the tool.*
 
 
                                             ''', 

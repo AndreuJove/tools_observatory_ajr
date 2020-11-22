@@ -61,8 +61,6 @@ def create_px_bar(df, x_value, y_value, title_given, color_given, discrete_seque
 colors = ['#1976d3', '#64b5f6']
 
 # Function create pie_chart in:
-
-
 def create_pie_chart(values_list, labels_list, title_pie):
     pie = go.Figure(
         data=[go.Pie(labels=labels_list, values=values_list, hole=0.55)])
@@ -72,10 +70,6 @@ def create_pie_chart(values_list, labels_list, title_pie):
     return pie
 
 # Barplot for HTTP codes:
-
-
-
-
 
 def create_bar_http_codes(dict_values_codes):
     df_http_codes = pd.DataFrame({"HTTP code": list(dict_values_codes.keys()), "Count": list(
@@ -120,31 +114,56 @@ Graphs for the tab Homepages -> Acces
 
 
 def create_px_bar_http_codes(df, x_value, y_value, title_given, color_given):
-    df = df.sort_values(by=y_value, ascending=False).reset_index(drop=True)
+    df = df.copy()
     df['color'] = color_given
     fig = px.bar(df, x=x_value, y=y_value, log_y=True,
                  color_discrete_sequence=df.color.unique(),
                  template='simple_white',
                  hover_data={x_value: False, y_value: False},
                  hover_name=y_value)
-    # fig.update_traces(texttemplate='%{Count}', textposition='outside', textfont_size=25)
-    fig.update_layout(xaxis_type='category', bargap=0.7,
-                      title=f"<b>{title_given} ({df['Count'].sum()})</b>", title_x=0.5)
+    # fig.update_xaxes(ticks="outside", 
+    #                 tickfont=dict(family='Helvetica', color='black'),                                   
+    #                 )
+    fig.update_layout(xaxis_type='category', 
+                        bargap=0.7,
+                        xaxis = dict(
+                            automargin=True,
+                            tickfont=dict(family='Helvetica', size=10, color='black'),
+                        ),
+                      title=f"<b>{title_given} ({df[y_value].sum()})</b>", title_x=0.5
+                      )
     return fig
 
-# This function create
+def create_box_plot_time_access(df):
+    fig = px.box(df, y="Access time", 
+                    log_y=True, points="outliers", 
+                    hover_data={"Website", "Redirections"},
+                    template="simple_white",
+                    labels={"Access time" : "Average Access Time (ms)", "x" : "websites"},
+                )
+    fig.update_layout(title=f"<b> Average Access Time (AAT)</b>", title_x=0.5,
+                         xaxis_title='Websites'
+                        )
+    return fig
 
-
-def create_px_bar_horizontal(df, x_value, y_value, title_given, color_given):
-    df = df.sort_values(by=y_value, ascending=False).reset_index(drop=True)
+def create_px_bar_days_up(df, x_value, y_value, title_given, color_given):
+    for i, t in df.iterrows():
+        df.at[i, x_value] = int(t[0])
+    df = df.sort_values(by=x_value, ascending=True).reset_index(drop=True)
     df['color'] = color_given
-    fig = px.bar(df, x=x_value, y=y_value, log_x=True,
-                 template='simple_white', orientation='h',
-                 color_discrete_sequence=df.color.unique(),
-                 hover_data={x_value: False, y_value: False},
-                 hover_name=x_value)
-    fig.update_layout(yaxis_categoryorder='total ascending', bargap=0.4,
-                      title=f"{title_given} ({df['Count'].sum()})", title_x=0.5)
+    fig = px.bar(   df, x=x_value, 
+                    y=y_value, log_y=True,
+                    template='simple_white', 
+                    color_discrete_sequence=df.color.unique(),
+                    hover_data={x_value: True, y_value: False},
+                    hover_name=y_value
+                )
+    fig.update_layout(  bargap=0.4, 
+                        title=f"<b> {title_given} ({df[y_value].sum()} websites) <b>", 
+                      
+                        title_x=0.5
+                    )
+    
     return fig
 
 
@@ -159,12 +178,11 @@ def create_scatter_plot(df):
                         color="Procedence", 
                         color_discrete_sequence=df.color.unique(),
                         labels={"percentage_of_change": "Percentage of change",
-                         'year': 'Year'}
+                         'year': 'Year'},
+                         hover_name="first_url"
                     )
     fig.update_layout(bargap=0.4,title=f"<b>Correlationship between percentage of change and year of publication ({len(df)})</b>", title_x=0.5)
     return fig
-
-
 
 def fill_df_color_procedence(df):
     df = df.copy()
@@ -212,7 +230,11 @@ def crate_box_plot_from_df(title_given, df):
                       xaxis=dict(
                             ticktext=list_change,
                             tickvals=list(range(0, len(list_change))),
-                            tickfont=dict(size=15)
+                            
+                            
                                 )
                     )
+
+    fig.update_xaxes(ticks="outside", tickfont=dict(family='Arial', color='black'))
+    # print(dir(fig['layout']['xaxis']['tickfont']))
     return fig
