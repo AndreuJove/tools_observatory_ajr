@@ -173,9 +173,3 @@ New homepages -> JavaScript!
 
 """
 
-
-metrics = "../api_extraction/output_data/metrics_api_v.json"
-with open(metrics, "r") as fp:
-    metrics = json.load(fp)
-
-df_total_percentages = pd.read_json("new_input_data/final_df_years_percentages.json")

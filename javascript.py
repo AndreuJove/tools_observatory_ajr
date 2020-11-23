@@ -1,30 +1,26 @@
+import json
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-import plotly.express as px
 import pandas as pd
 from dash.dependencies import Input, Output
 from dash.exceptions import PreventUpdate
-from data_reader import*
-
 import graphs
 
-
+"""
+imports to change
 """
 
-new imports:
+with open("../api_extraction/output_data/metrics_api_v.json", "r") as fp:
+    metrics = json.load(fp)
 
-from data_reader import df_javaScript
-
-"""
-
-
+df_total_percentages = pd.read_json("new_input_data/final_df_years_percentages.json")
 
 # Get external CSS:
 external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets,
                 meta_tags=[{"name": "viewport", "content": "width=device-width, initial-scale=1"}])
-app.title = "Homepages"
+app.title = "JavaScript"
 app.css.append_css(
     {'external_url': 'assets/styles.css'})
 app.css.config.serve_locally = False
@@ -44,32 +40,46 @@ app.layout = html.Div(
     style={'display': 'flex', 'flex-direction': 'column', 'backgroundColor': '#f6f6f6'},
     children=[
         html.Div(
+            className="section-title ",
+            children=[
+                html.Div(children=["JavaScript in Websites"])
+            ]
+        ),
+        html.Div(
             id="div_top_dynamic_websites",
             children=[
                         dcc.Graph(
                         id='basic-interactions',
                         className="plot_ok_not_ok",
-                        figure=graphs.create_pie_chart([len(df_static), len(df_total_percentages)-len(df_static)], ['Static', 'Dynamic'], "Total Websites analysed")),
+                        figure=graphs.create_pie_chart([len(df_static), len(df_total_percentages)-len(df_static)], ['Static', 'Dynamic'], "HTML format websites without errors")),
                         dcc.Markdown(
                                 children= '''
-                                **Dynamic websites** 
+                                    **Dynamic websites**
                                 
-                                *are considered the*
+                                    *are considered the*
 
-                                *ones that JavaScript*
+                                    *ones that JavaScript*
                                 
-                                *displays content*
+                                    *displays content*
                                 
-                                *of the website.*
+                                    *of the website.*
 
-                                *This content will*
+                                    **Percentage of change**
 
-                                *change depending of*
+                                    *is obtained by comparing*
 
-                                *the website.*
+                                    *HTML with and without*
+                                
+                                    *JavaScript rendered.*  
+
+                                    *The next following plots*
+
+                                    *are being obtained from*
+
+                                    *the dynamic websites.*
 
 
-                                ''', style={"margin" : "auto"})  
+                                ''')  
 
                     ]),
         html.Div(
@@ -120,57 +130,54 @@ app.layout = html.Div(
                                          'maxHeight': 'inherit'},
                                   config={"displaylogo": False, "displayModeBar": False, "showTips": False,
                                           'modeBarButtonsToRemove': ['pan2d', 'lasso2d']}),
+                    ]),
 
                         html.Div(
                             id="div_scatter_plot_markdown",
                             children=[
                                 dcc.Graph(id='scatter_plot',
                                     figure=graphs.create_scatter_plot(df_only_years),
-                                  className='six columns',
-                                  style={'height': '750px', 'margin': '1% auto', 'border': '1px solid #808080',
+                                  style={'height': '750px', "width" : "950px",'margin': '1% auto', 'border': '1px solid #808080',
                                          'maxHeight': 'inherit'},
                                   config={"displaylogo": False, "displayModeBar": False, "showTips": False,
                                           'modeBarButtonsToRemove': ['pan2d', 'lasso2d']}
-                                          
                                           ),
-                                    
+
                                 dcc.Markdown(
                                             children= '''
-                                            *This plot pretends* 
+                                            *This plot pretends*
                                             
                                             *to find correlationship*
 
                                             *between the Year of*
-                                            
+
                                             *publication of the*
                                             
                                             *tool and the percentage*
 
                                             *of change of the*
 
-                                            *website of the tool.*
-
-
-                                            ''', 
-                                            style={"margin" : "auto"})     
-                            ]
+                                            *website of the tool.*''',                                             
+                                            )     
+                                    ]
                         )
                     ]
                 )]
-        )])
-
-
+        )
 
 
 """
 Callback for tab JavaScript:
 """
 
-@app.callback([Output('boxplot_plot', 'figure'), Output('histogram_dynamic_percentages', 'figure'), Output('boxplot_plot', 'style')],
-              [dash.dependencies.Input('data_view_javascript', 'value')])
+@app.callback([ Output('boxplot_plot', 'figure'), 
+                Output('histogram_dynamic_percentages', 'figure'), 
+                Output('boxplot_plot', 'style')
+                ],
+              [Input('data_view_javascript', 'value')])
 def update_histogram_box_plot(value):
     if value == "generic":
-        return graphs.crate_box_plot_from_df("Generic Repositories", df_javaScript[df_javaScript['domain'].isin(metrics['domains_classification'][4]['generic'])]), graphs.create_fig_bar_percentage_of_change(df_javaScript[df_javaScript['domain'].isin(metrics['domains_classification'][4]['generic'])], "Generic Repositories"), {'height': '750px', 'margin': '1%', 'border': '1px solid #808080','maxHeight': 'inherit'}                                                                                                                                                                                                                                      
+        return graphs.crate_box_plot_from_df("Generic Repositories", df_javaScript[df_javaScript['domain'].isin(metrics['domains_classification'][4]['generic'])]), graphs.create_fig_bar_percentage_of_change(df_javaScript[df_javaScript['domain'].isin(metrics['domains_classification'][4]['generic'])], "Generic Repositories"), {'height': '750px', 'margin': '1%', 'border': '1px solid #808080','maxHeight': 'inherit'}
     elif value == "universities":
         return graphs.crate_box_plot_from_df("Universities", df_javaScript[df_javaScript['domain'].isin(metrics['domains_classification'][0]['university'])]), graphs.create_fig_bar_percentage_of_change(df_javaScript[df_javaScript['domain'].isin(metrics['domains_classification'][0]['university'])], "Universities"), {'height': '750px', 'margin': '1%', 'border': '1px solid #808080', 'maxHeight': 'inherit'}                                                                                                                                                                                                                              
     elif value == "institutions":
@@ -185,7 +192,6 @@ def update_histogram_box_plot(value):
     elif value == "total":
         return graphs.crate_box_plot_from_df("Collections", 
                                         df_javaScript[df_javaScript['domain'].isin(metrics['domains_classification'][3]['collections'])]), graphs.create_fig_bar_percentage_of_change(df_javaScript, "the total"), {'display': 'none'}
-
 
 if __name__ == '__main__':
     app.run_server(debug=True)

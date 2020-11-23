@@ -68,14 +68,16 @@ app.layout = html.Div(
             ]
         ),
         html.Div(
-            style={"display": "flex", "justifyContent" : "space-evenly"},
+            id="div_parent_access_websites",
+            
             children=[
-                html.Div(style={"width": "47%"},
+                
+                html.Div(
+                        id="div_codes_pie_histogram_pie",
                          children=[
                              html.Div(
                                         id="pie_ok_not_ok_markdown",
-                                        style={'display': 'flex',
-                                                 "justifyContent" : "space-evenly"},
+                                       
                                         children=[
                                             dcc.Graph(
                                                 id='basic-interactions',
@@ -104,7 +106,7 @@ app.layout = html.Div(
                                                                             '''],
 
                                                             style={
-                                                                    "fontSize": "20px", "margin": "auto"}
+                                                                    "fontSize": "20px"}
                                                             )
 
 
@@ -118,7 +120,9 @@ app.layout = html.Div(
                 ]
                 ),
 
-                html.Div(style={"width": "40%", "display" : "flex", "alignItems" : "flex-start"},
+                html.Div(
+                    id="div_average_access_time_and_markdown",
+                    
                     children=[                         
                                 dcc.Graph(
                                             id="average_access_box_plot",
@@ -137,9 +141,15 @@ app.layout = html.Div(
 
                                                 *the response of the server.*
 
+                                                *The first website and*
+                                                
+                                                *and his redirections are*
+
+                                                *showed in the outliers.*
+
                                                 *As shown in the plot*
                                                 
-                                                *is directly related with*
+                                                *AAT is related with*
 
                                                 *the redirections (3xx).*
 

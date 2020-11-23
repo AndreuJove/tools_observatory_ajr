@@ -1,8 +1,8 @@
+import numpy as np
 import plotly.express as px
 import pandas as pd
-from data_reader import*
+from data_reader import lifeScience, university, generic, collections, institucional, get_the_count_of_one_domain
 import plotly.graph_objects as go
-import numpy as np
 
 """
 
@@ -10,10 +10,8 @@ Homepages -> Domains and metrics
 
 """
 
-# Give to rows the proper color in pandas dataframe.
-
-
 def giving_onthology_colors(domain):
+    # Give to rows the proper color in pandas dataframe.
     if domain in lifeScience:
         return "orange"
     elif domain in university:
@@ -27,9 +25,8 @@ def giving_onthology_colors(domain):
     else:
         return "grey"
 
-# Give to rows the correct onthology in pandas dataframe.
-
 def giving_onthology(domain):
+    # Give to rows the correct onthology in pandas dataframe.
     if domain in lifeScience:
         return "Life Sciences"
     elif domain in university:
@@ -42,10 +39,11 @@ def giving_onthology(domain):
         return "Institutional"
     else:
         return "others"
-# Create px bar for domains
+
 
 
 def create_px_bar(df, x_value, y_value, title_given, color_given, discrete_sequence):
+    # Create px bar for domains
     fig = px.bar(df, x=x_value, y=y_value, log_x=True, color=color_given,
                  color_discrete_sequence=discrete_sequence,
                  template='simple_white', orientation='h',
@@ -60,8 +58,9 @@ def create_px_bar(df, x_value, y_value, title_given, color_given, discrete_seque
 # Colors for all pies chart:
 colors = ['#1976d3', '#64b5f6']
 
-# Function create pie_chart in:
+
 def create_pie_chart(values_list, labels_list, title_pie):
+    # Function create pie_chart in:
     pie = go.Figure(
         data=[go.Pie(labels=labels_list, values=values_list, hole=0.55)])
     pie.update_traces(hoverinfo='value', marker=dict(colors=colors))
@@ -69,9 +68,9 @@ def create_pie_chart(values_list, labels_list, title_pie):
                       legend_orientation="h", title_font_family="Arial", title_font_color="#383838")
     return pie
 
-# Barplot for HTTP codes:
 
 def create_bar_http_codes(dict_values_codes):
+    # Barplot for HTTP codes:
     df_http_codes = pd.DataFrame({"HTTP code": list(dict_values_codes.keys()), "Count": list(
         dict_values_codes.values()), "color": '#7bc0f7'}).sort_values('Count', ascending=False).reset_index(drop=True)
     fig_hist = px.bar(df_http_codes, x="HTTP code", y="Count", color_discrete_sequence=df_http_codes.color.unique(
@@ -80,10 +79,8 @@ def create_bar_http_codes(dict_values_codes):
                            title="Resume HTTP Codes" + " ("+str(sum(dict_values_codes.values()))+")", title_x=0.5, title_font_family="Arial", title_font_color="#383838")
     return fig_hist
 
-# Plot histogram domains:
-
-
 def create_histogram_domains(values, values_col1, values_col2):
+    # Plot histogram domains:
     if not values or values == ['others']:
         df = pd.DataFrame(
             {"Domain": values_col1, "Count": values_col2}).iloc[::-1]
@@ -110,10 +107,9 @@ def create_histogram_domains(values, values_col1, values_col2):
 """
 Graphs for the tab Homepages -> Acces
 """
-# Create bar for http codes in acces tab:
-
 
 def create_px_bar_http_codes(df, x_value, y_value, title_given, color_given):
+    # Create bar for http codes in acces tab:
     df = df.copy()
     df['color'] = color_given
     fig = px.bar(df, x=x_value, y=y_value, log_y=True,
@@ -128,13 +124,18 @@ def create_px_bar_http_codes(df, x_value, y_value, title_given, color_given):
                         bargap=0.7,
                         xaxis = dict(
                             automargin=True,
-                            tickfont=dict(family='Helvetica', size=10, color='black'),
+                            
                         ),
                       title=f"<b>{title_given} ({df[y_value].sum()})</b>", title_x=0.5
                       )
+    fig.update_xaxes(tickfont_size=15, tickfont_color="Black")
     return fig
 
 def create_box_plot_time_access(df):
+    # Replace None for np.nan
+    df = df.fillna(value=np.nan)
+    # Replace np.nan for "" 
+    df = df.replace(np.nan, '', regex=True)
     fig = px.box(df, y="Access time", 
                     log_y=True, points="outliers", 
                     hover_data={"Website", "Redirections"},
@@ -147,6 +148,7 @@ def create_box_plot_time_access(df):
     return fig
 
 def create_px_bar_days_up(df, x_value, y_value, title_given, color_given):
+    # Tranform to integer proper sorting of the column Days OK
     for i, t in df.iterrows():
         df.at[i, x_value] = int(t[0])
     df = df.sort_values(by=x_value, ascending=True).reset_index(drop=True)
@@ -160,7 +162,6 @@ def create_px_bar_days_up(df, x_value, y_value, title_given, color_given):
                 )
     fig.update_layout(  bargap=0.4, 
                         title=f"<b> {title_given} ({df[y_value].sum()} websites) <b>", 
-                      
                         title_x=0.5
                     )
     
@@ -179,9 +180,10 @@ def create_scatter_plot(df):
                         color_discrete_sequence=df.color.unique(),
                         labels={"percentage_of_change": "Percentage of change",
                          'year': 'Year'},
-                         hover_name="first_url"
+                         template="simple_white",
+                         hover_name="year"
                     )
-    fig.update_layout(bargap=0.4,title=f"<b>Correlationship between percentage of change and year of publication ({len(df)})</b>", title_x=0.5)
+    fig.update_layout(bargap=0.4,title=f"<b>Correlationship between percentage of change and year of publication ({len(df)})</b>",  title_font_family="Arial", title_x=0.5)
     return fig
 
 def fill_df_color_procedence(df):
@@ -190,14 +192,14 @@ def fill_df_color_procedence(df):
     df['Procedence'] = df['domain'].apply(giving_onthology)
     return df
 
-# Create bins for histogram:
 def create_fig_bar_percentage_of_change(df, title_given):
+    # Create bins for histogram:
     df = df.sort_values(by="percentage_of_change",
                         ascending=False).reset_index(drop=True)
     total = len(df)
     counts, bins = np.histogram(df.percentage_of_change, bins=range(0, 100, 5))
     counts = np.insert(counts, 0, 0, axis=None)
-    fig_bar = px.bar(x=bins, y=counts, labels={'x': 'Percentage of change', 'y': 'Count'}, log_y=True, template="simple_white",
+    fig_bar = px.bar(x=bins, y=counts, labels={'x': 'Percentage of change', 'y': 'Count'}, log_y=True, template="simple_white", 
                      hover_name=counts)
     fig_bar.update_traces(marker_color='#7bc0f7')
     fig_bar.update_layout(title=f"<b>Percentage of change of dynamic websites in {title_given} ({total})</b>",
@@ -216,7 +218,7 @@ def crate_box_plot_from_df(title_given, df):
                  labels={"percentage_of_change": "Percentage of change",
                          'domain': 'Domain'}
                  )
-
+    # Change xticks of different domains with (websites/total)
     list_change = list(fig['layout']['xaxis']['categoryarray'])
     for i, domain in enumerate(list_change):
         count_df = len(df[df['domain'] == domain])
@@ -230,11 +232,7 @@ def crate_box_plot_from_df(title_given, df):
                       xaxis=dict(
                             ticktext=list_change,
                             tickvals=list(range(0, len(list_change))),
-                            
-                            
                                 )
                     )
-
     fig.update_xaxes(ticks="outside", tickfont=dict(family='Arial', color='black'))
-    # print(dir(fig['layout']['xaxis']['tickfont']))
     return fig
