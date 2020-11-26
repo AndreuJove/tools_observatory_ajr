@@ -1,15 +1,76 @@
 import numpy as np
 import plotly.express as px
 import pandas as pd
-from data_reader import lifeScience, university, generic, collections, institucional, get_the_count_of_one_domain
 import plotly.graph_objects as go
+import json
+"""
+
+DATA:  Domains and metrics
 
 """
 
-Homepages -> Domains and metrics
+# Open file of all bisochemas ssl https numbers by domains classification:
+path_metrics = "new_input_data/extracted_metrics.json"
+with open(path_metrics, "r") as l:
+    metrics = json.load(l)
+
+domains = metrics['domains_count'][0]["Domain"]
+values_36 = metrics['domains_count'][1]["Count"]
+
+university = metrics['domains_classification'][0]['university']
+institucional = metrics['domains_classification'][1]['institucional']
+lifeScience = metrics['domains_classification'][2]['lifeScience']
+collections = metrics['domains_classification'][3]['collections']
+generic = metrics['domains_classification'][4]['generic']
+
+#Get initial values from the results for the pie charts plots for the domains tab:
+def get_initial_values_for_update():
+    https_http = {
+        'university': metrics["bioschemas_ssl_https_license"][0]["university"]["https"],
+        'institucional': metrics["bioschemas_ssl_https_license"][1]["institucional"]["https"],
+        'lifeScience': metrics["bioschemas_ssl_https_license"][2]["lifeScience"]["https"],
+        'collections': metrics["bioschemas_ssl_https_license"][3]["collections"]["https"],
+        'generic': metrics["bioschemas_ssl_https_license"][4]["generic"]["https"],
+        'others': metrics["bioschemas_ssl_https_license"][5]["others"]["https"],
+    }
+    all_ssl_results = {
+        'university': metrics["bioschemas_ssl_https_license"][0]["university"]["ssl"],
+        'institucional': metrics["bioschemas_ssl_https_license"][1]["institucional"]["ssl"],
+        'lifeScience': metrics["bioschemas_ssl_https_license"][2]["lifeScience"]["ssl"],
+        'collections': metrics["bioschemas_ssl_https_license"][3]["collections"]["ssl"],
+        'generic': metrics["bioschemas_ssl_https_license"][4]["generic"]["ssl"],
+        'others': metrics["bioschemas_ssl_https_license"][5]["others"]["ssl"]
+    }
+    all_bioschema_results = {
+        'university': metrics["bioschemas_ssl_https_license"][0]["university"]["bioschemas"],
+        'institucional': metrics["bioschemas_ssl_https_license"][1]["institucional"]["bioschemas"],
+        'lifeScience': metrics["bioschemas_ssl_https_license"][2]["lifeScience"]["bioschemas"],
+        'collections': metrics["bioschemas_ssl_https_license"][3]["collections"]["bioschemas"],
+        'generic': metrics["bioschemas_ssl_https_license"][4]["generic"]["bioschemas"],
+        'others': metrics["bioschemas_ssl_https_license"][5]["others"]["bioschemas"]
+    }
+    all_http_codes_for_hist = {
+        'university': metrics['http_codes_by_classification'][0]["university"],
+        'institucional': metrics['http_codes_by_classification'][1]["institucional"],
+        'lifeScience': metrics['http_codes_by_classification'][2]["lifeScience"],
+        'collections': metrics['http_codes_by_classification'][3]["collections"],
+        'generic': metrics['http_codes_by_classification'][4]["generic"],
+        'others': metrics['http_codes_by_classification'][5]["others"],
+    }
+
+    return https_http, all_ssl_results, all_bioschema_results, all_http_codes_for_hist
+
+
 
 """
 
+
+
+graphs
+
+
+
+"""
 def giving_onthology_colors(domain):
     # Give to rows the proper color in pandas dataframe.
     if domain in lifeScience:
@@ -142,7 +203,7 @@ def create_box_plot_time_access(df):
                     template="simple_white",
                     labels={"Access time" : "Average Access Time (ms)", "x" : "websites"},
                 )
-    fig.update_layout(title=f"<b> Average Access Time (AAT)</b>", title_x=0.5,
+    fig.update_layout(title=f"<b> Average Access Time in the last 30 days (AAT)</b>", title_x=0.5,
                          xaxis_title='Websites'
                         )
     return fig
@@ -234,5 +295,6 @@ def crate_box_plot_from_df(title_given, df):
                             tickvals=list(range(0, len(list_change))),
                                 )
                     )
-    fig.update_xaxes(ticks="outside", tickfont=dict(family='Arial', color='black'))
+    # fig.update_xaxes(ticks="outside", tickfont=dict(family='Arial', color='black'))
+    fig.update_xaxes(tickfont_size=20, ticks="outside", ticklen=1, tickwidth=1)
     return fig

@@ -22,7 +22,7 @@ app.prevent_initial_callbacks = True
 
 
 # Open file with all daya for this py
-with open("new_input_data/acces_websites.json") as file:
+with open("new_input_data/extracted_metrics.json") as file:
     data = json.load(file)
 
 
@@ -77,7 +77,6 @@ app.layout = html.Div(
                          children=[
                              html.Div(
                                         id="pie_ok_not_ok_markdown",
-                                       
                                         children=[
                                             dcc.Graph(
                                                 id='basic-interactions',
@@ -120,48 +119,52 @@ app.layout = html.Div(
                 ]
                 ),
 
-                html.Div(
-                    id="div_average_access_time_and_markdown",
-                    
-                    children=[                         
-                                dcc.Graph(
-                                            id="average_access_box_plot",
-                                            config={"displaylogo": False, "displayModeBar": False, "showTips": False,
-                                                    'modeBarButtonsToRemove': ['pan2d', 'lasso2d']},
-                                            figure=graphs.create_box_plot_time_access(
-                                                df_access)
-                                        ),
-                        dcc.Markdown(
-                                    children=['''                                                                   
-                                                **Average Access Time (AAT):**
-
-                                                *is average of time in*
-                                                
-                                                *miliseconds to get the*
-
-                                                *the response of the server.*
-
-                                                *The first website and*
-                                                
-                                                *and his redirections are*
-
-                                                *showed in the outliers.*
-
-                                                *As shown in the plot*
-                                                
-                                                *AAT is related with*
-
-                                                *the redirections (3xx).*
-
-                                                '''],
-                                    style={
-                                        "fontSize": "20px", "marginTop": "10em"})                   
-                    ]
-                ),               
+             
             ]),
-        html.Div(   style={"display" : "flex",  "justifyContent" : "center"},
+        html.Div(   style={"display" : "flex"},
                     children=[
-                                dcc.Graph(
+                            html.Div(
+                                id="div_average_access_time_and_markdown",
+                                
+                                children=[                         
+                                            dcc.Graph(
+                                                        id="average_access_box_plot",
+                                                        config={"displaylogo": False, "displayModeBar": False, "showTips": False,
+                                                                'modeBarButtonsToRemove': ['pan2d', 'lasso2d']},
+                                                        figure=graphs.create_box_plot_time_access(
+                                                            df_access)
+                                                    ),
+                                    dcc.Markdown(
+                                                children=['''                                                                   
+                                                            **Average Access Time (AAT):**
+
+                                                            *is average of time in*
+                                                            
+                                                            *miliseconds to get the*
+
+                                                            *the response of the server.*
+
+                                                            *The first website and*
+                                                            
+                                                            *and his redirections are*
+
+                                                            *showed in the outliers.*
+
+                                                            *As shown in the plot*
+                                                            
+                                                            *AAT is related with*
+
+                                                            *the redirections (3xx).*
+
+                                                            '''],
+                                                style={
+                                                    "fontSize": "20px", "marginTop": "10em"})                   
+                    ]
+                ),  
+                                
+                                html.Div(
+                                    children=[
+                                    dcc.Graph(
                                     id="histogram_days_up",
                                     config={"displaylogo": False, "displayModeBar": False, "showTips": False,
                                             'modeBarButtonsToRemove': ['pan2d', 'lasso2d']},
@@ -186,7 +189,7 @@ app.layout = html.Div(
                                             style={
                                                 "fontSize": "20px", "marginTop": "10em"})
 
-                            ]
+                                ])]
                         )
     ])
 

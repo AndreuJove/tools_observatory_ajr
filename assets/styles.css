@@ -34,7 +34,6 @@ font-size: 35px;
 #div_parent_access_websites{
     display: flex;
     justify-content: space-evenly;
-
 }
 
 #div_codes_pie_histogram_pie{
@@ -52,7 +51,7 @@ font-size: 35px;
     border: 1px solid #808080;
     width: 550px;
     height: 800px;
-    margin: 2%;
+    margin: 2%;  
 }
 
 
@@ -74,7 +73,6 @@ font-size: 35px;
     border: 1px solid #808080;
     max-height : inherit;
     box-sizing : border-box;
-
 }
 
 #div_average_access_time_and_markdown{
@@ -86,9 +84,13 @@ font-size: 35px;
 
 /*Styles for javascript.py*/
 
+
+#boxplot_plot{
+    height: 1000px;
+
+}
 #div_top_dynamic_websites{
     display: flex;
-    
     justify-content: space-around;
     align-items: center;
     width: 50em;
