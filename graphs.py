@@ -99,7 +99,7 @@ def giving_onthology(domain):
     elif domain in institucional:
         return "Institutional"
     else:
-        return "Others"
+        return "others"
 
 
 
@@ -267,6 +267,11 @@ def create_fig_bar_percentage_of_change(df, title_given):
                           title_x=0.5, title_font_family="Arial", title_font_color="#383838")
     return fig_bar
 
+
+def get_the_count_of_one_domain(domain):
+    # Get the total count for domain
+    index_domain = metrics['domains_count'][0]['Domain'].index(domain)
+    return metrics['domains_count'][1]['Count'][index_domain]
 
 def crate_box_plot_from_df(title_given, df):
     total_df = len(df)

@@ -11,8 +11,9 @@ import graphs
 imports to change
 """
 
-with open("../api_extraction/output_data/metrics_api_v.json", "r") as fp:
-    metrics = json.load(fp)
+path_metrics = "new_input_data/extracted_metrics.json"
+with open(path_metrics, "r") as l:
+    metrics = json.load(l)
 
 df_total_percentages = pd.read_json("new_input_data/final_df_years_percentages.json")
 
@@ -49,8 +50,8 @@ app.layout = html.Div(
             id="div_top_dynamic_websites",
             children=[
                         dcc.Graph(
-                        id='basic-interactions',
-                        className="plot_ok_not_ok",
+                        id='pie_dynamic_not_dynamic',
+                        
                         figure=graphs.create_pie_chart([len(df_static), len(df_total_percentages)-len(df_static)], ['Static', 'Dynamic'], "HTML format websites without errors")),
                         dcc.Markdown(
                                 children= '''
