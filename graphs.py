@@ -57,18 +57,12 @@ def get_initial_values_for_update():
         'generic': metrics['http_codes_by_classification'][4]["generic"],
         'others': metrics['http_codes_by_classification'][5]["others"],
     }
-
     return https_http, all_ssl_results, all_bioschema_results, all_http_codes_for_hist
 
 
 
 """
-
-
-
-graphs
-
-
+GRAPHS
 
 """
 def giving_onthology_colors(domain):
@@ -101,8 +95,6 @@ def giving_onthology(domain):
     else:
         return "others"
 
-
-
 def create_px_bar(df, x_value, y_value, title_given, color_given, discrete_sequence):
     # Create px bar for domains
     fig = px.bar(df, x=x_value, y=y_value, log_x=True, color=color_given,
@@ -115,10 +107,8 @@ def create_px_bar(df, x_value, y_value, title_given, color_given, discrete_seque
     fig.update_yaxes(showticklabels=True)
     return fig
 
-
 # Colors for all pies chart:
 colors = ['#1976d3', '#64b5f6']
-
 
 def create_pie_chart(values_list, labels_list, title_pie):
     # Function create pie_chart in:
@@ -128,7 +118,6 @@ def create_pie_chart(values_list, labels_list, title_pie):
     pie.update_layout(title=f"<b>{title_pie} ({str(sum(values_list))})</b>", title_x=0.5,
                       legend_orientation="h", title_font_family="Arial", title_font_color="#383838")
     return pie
-
 
 def create_bar_http_codes(dict_values_codes):
     # Barplot for HTTP codes:
@@ -164,7 +153,6 @@ def create_histogram_domains(values, values_col1, values_col2):
     df = df[df['Procedence'].isin(values)]
     return create_px_bar(df, "Count", "Domain", "Primary classification about domains in tools", 'Procedence', df.color.unique())
 
-
 """
 Graphs for the tab Homepages -> Acces
 """
@@ -189,7 +177,7 @@ def create_px_bar_http_codes(df, x_value, y_value, title_given, color_given):
                         ),
                       title=f"<b>{title_given} ({df[y_value].sum()})</b>", title_x=0.5
                       )
-    fig.update_xaxes(tickfont_size=15, tickfont_color="Black")
+    fig.update_xaxes(tickfont_size=50, tickfont_color="Black")
     return fig
 
 def create_box_plot_time_access(df):
@@ -225,7 +213,6 @@ def create_px_bar_days_up(df, x_value, y_value, title_given, color_given):
                         title=f"<b> {title_given} ({df[y_value].sum()} websites) <b>", 
                         title_x=0.5
                     )
-    
     return fig
 
 
@@ -266,7 +253,6 @@ def create_fig_bar_percentage_of_change(df, title_given):
     fig_bar.update_layout(title=f"<b>Percentage of change of dynamic websites in {title_given} ({total})</b>",
                           title_x=0.5, title_font_family="Arial", title_font_color="#383838")
     return fig_bar
-
 
 def get_the_count_of_one_domain(domain):
     # Get the total count for domain
