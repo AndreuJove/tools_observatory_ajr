@@ -67,135 +67,156 @@ app.layout = html.Div(
                                         '''],  style={"fontSize": "23px"})
             ]
         ),
+        html.Hr(style={"margin": "4em"}),
         html.Div(
-            id="div_parent_access_websites",
+            className= "div_markdown",
             
             children=[
-                
+                dcc.Markdown(
+                    children=[f'''
+                                        HTTP Codes recieved and classified from {len(data['df_acces'])} unique websites.
+                                        
+                                        For more information visit:
+
+                                        ''']),
+                html.A("HTTP response status codes.", href='https://developer.mozilla.org/en-US/docs/Web/HTTP/Status', target="_blank")  
+            ]
+        ),
+        
+        html.Div(
+            id="div_parent_access_websites",
+            children=[
                 html.Div(
-                        id="div_codes_pie_histogram_pie",
+                        id="div_pie_codes_and_histogram_codes",
                          children=[
-                             html.Div(
-                                        id="pie_ok_not_ok_markdown",
-                                        children=[
-                                            dcc.Graph(
-                                                id='basic-interactions',
-                                                className="plot_ok_not_ok",
-                                                config={
-                                                    'editable': True},
-                                                figure=create_pie_chart([df_ok_codes['Count'].sum(), df_not_ok_codes['Count'].sum()], ['OK', 'Not OK'], "Total HTTP Codes received")
-                                                        ),
-                                            dcc.Markdown(
-                                                            children=['''
-                                                                            
-                                                                            **OK**:
+                                    html.Div(
+                                                id="pie_ok_not_ok_markdown",
+                                                children=[
+                                                    dcc.Graph(
+                                                        id='http_codes_ok_not_ok',
+                                                        config={
+                                                            'editable': True},
+                                                        figure=create_pie_chart([df_ok_codes['Count'].sum(), df_not_ok_codes['Count'].sum()], ['OK', 'Not OK'], "Total HTTP Codes received")
+                                                                ),
+                                                    dcc.Markdown(   
+                                                                    children=['''
+                                                                                    
+                                                                                    **OK**:
 
-                                                                            ``1xx``: Informational.
+                                                                                    ``1xx``: Informational.
 
-                                                                            ``2xx``: Success.
-                                                                            
-                                                                            3xx: Redirection.
-                                                                            
-                                                                            **NOT OK**:
+                                                                                    ``2xx``: Success.
+                                                                                    
+                                                                                    3xx: Redirection.
+                                                                                    
+                                                                                    **NOT OK**:
 
-                                                                            4xx: Client Error.
+                                                                                    4xx: Client Error.
 
-                                                                            5xx: Server Error.
+                                                                                    5xx: Server Error.
 
-                                                                            '''],
+                                                                                    '''],
 
-                                                            style={
-                                                                    "fontSize": "20px"}
-                                                            )
+                                                                    style={
+                                                                            "fontSize": "20px"}
+                                                                    )
 
 
-                                                    ]),
+                                                            ]),
 
-                            dcc.Graph(id="histogram_ok_not_ok_codes",
-                                    className="histogram_ok_not_ok",
-                                    config={"displaylogo": False, "displayModeBar": False, "showTips": False,
-                                            'modeBarButtonsToRemove': ['pan2d', 'lasso2d']}
+                                    dcc.Graph(  id="histogram_ok_not_ok_codes",
+                                                config={"displaylogo": False, "displayModeBar": False, "showTips": False,
+                                                'modeBarButtonsToRemove': ['pan2d', 'lasso2d']}
                                     ),
-                ]
+                        ]
                 ),
 
              
             ]),
-        html.Div(   style={"display" : "flex"},
+        html.Hr(style={"margin": "4em"}),
+        html.Div(
+            className= "div_markdown",
+            children=[
+                dcc.Markdown(
+                    children=[f'''
+                                        Stadistics obtained from the websites for the last 30 days:
+
+                                        ''']
+                            )               
+            ]
+        ),
+        html.Div(  id="div_30_days",
                     children=[
                             html.Div(
-                                id="div_average_access_time_and_markdown",
-                                
-                                children=[                         
-                                            dcc.Graph(
-                                                        id="average_access_box_plot",
-                                                        config={"displaylogo": False, "displayModeBar": False, "showTips": False,
-                                                                'modeBarButtonsToRemove': ['pan2d', 'lasso2d']},
-                                                        figure=graphs.create_box_plot_time_access(
-                                                            df_access)
-                                                    ),
-                                    dcc.Markdown(
-                                                children=['''                                                                   
-                                                            **Average Access Time (AAT):**
+                                        id="div_average_access_time_and_markdown",
+                                        children=[                         
+                                                    dcc.Graph(
+                                                                id="average_access_box_plot",
+                                                                config={"displaylogo": False, "displayModeBar": False, "showTips": False,
+                                                                        'modeBarButtonsToRemove': ['pan2d', 'lasso2d']},
+                                                                figure=graphs.create_box_plot_time_access(
+                                                                    df_access)
+                                                            ),
+                                                    dcc.Markdown(
+                                                                children=['''                                                                   
+                                                                            **Average Access Time (AAT):**
 
-                                                            *is average of time in*
-                                                            
-                                                            *miliseconds to get the*
-
-                                                            *the response of the server.*
-
-                                                            *The first website and*
-                                                            
-                                                            *and his redirections are*
-
-                                                            *showed in the outliers.*
-
-                                                            *As shown in the plot*
-                                                            
-                                                            *AAT is related with*
-
-                                                            *the redirections (3xx).*
-
-                                                            '''],
-                                                style={
-                                                    "fontSize": "20px", "marginTop": "10em"})                   
-                    ]
-                ),  
-                                
-                                html.Div(
-                                    children=[
-                                    dcc.Graph(
-                                    id="histogram_days_up",
-                                    config={"displaylogo": False, "displayModeBar": False, "showTips": False,
-                                            'modeBarButtonsToRemove': ['pan2d', 'lasso2d']},
-                                    figure=graphs.create_px_bar_days_up(df_days_up, "Days OK", "Number of websites", "Days UP in the last 30 days", '#1976d3')                                   
-                                ),
-                                dcc.Markdown(
-                                            children=['''
+                                                                            *is average of time in*
                                                                             
-                                                        *This figure shows*
+                                                                            *miliseconds to get the*
 
-                                                        *for each website the*
+                                                                            *the response of the server*
+                                                                            
+                                                                            *during the last 30 days.*
 
-                                                        _number of **Days UP**_
+                                                                            *The first website and*
+                                                                            
+                                                                            *and his redirections are*
 
-                                                        *(OK HTTP Code)*
-                                                        
-                                                        *of the last 30 days.*
-                                                        
+                                                                            *showed in the outliers.*
 
-                                                        '''],
+                                                                            *As shown in the plot*
+                                                                            
+                                                                            *AAT is related with*
 
-                                            style={
-                                                "fontSize": "20px", "marginTop": "10em"})
+                                                                            *the redirections (3xx).*
 
-                                ])]
+                                                                            '''],
+                                                                style={
+                                                                    "fontSize": "20px"})                   
+                                                ]
+                                            ),  
+                                
+                            html.Div( id ="histogram_days_up_and_markdown",
+                                        children=[  
+                                                dcc.Graph(
+                                                            id="histogram_days_up",
+                                                            config={"displaylogo": False, "displayModeBar": False, "showTips": False,
+                                                                    'modeBarButtonsToRemove': ['pan2d', 'lasso2d']},
+                                                            figure=graphs.create_px_bar_days_up(df_days_up, "Days OK", "Number of websites", "Days UP in the last 30 days", '#1976d3')                                   
+                                                        ),
+                                                dcc.Markdown(
+                                                            children=['''
+                                                                                            
+                                                                        *This figure shows for each website the*
+
+                                                                        _number of **Days UP** (OK HTTP Code)_
+
+                                                                        *of the last 30 days.*                                                                        
+
+                                                                        '''],
+
+                                                            style={
+                                                                "fontSize": "20px"})
+
+                                            ])
+                            ]
                         )
     ])
 
 @app.callback(
     Output('histogram_ok_not_ok_codes', 'figure'),
-    [Input('basic-interactions', 'hoverData')])
+    [Input('http_codes_ok_not_ok', 'hoverData')])
 def display_hover_data(hoverData):
     if not hoverData:
         return fig_http_codes_ok

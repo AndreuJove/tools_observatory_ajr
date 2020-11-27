@@ -1,95 +1,104 @@
-.body{
-margin: 0;
-font-size: 35px;
+.body {
+    margin: 0;
+    font-size: 35px;
 }
 
-
-.dcc_tabs_class{
+.dcc_tabs_class {
     height: 2.5em;
     margin: 10px;
-    display : flex;
+    display: flex;
 }
 
-.little_plots{
+/*Styles for domains*/
+
+.little_plots {
     height: 400px;
     width: 400px;
     margin: 4%;
     border: 1px solid #808080;
-    max-height : inherit;
-    box-sizing : border-box;
+    max-height: inherit;
+    box-sizing: border-box;
 }
-
-.plot_ok_not_ok{
-    height: 440px;
-    width: 440px;
-    margin: 2% auto;
-    border: 1px solid #808080;
-    max-height : inherit;
-    box-sizing : border-box;
-}
-
 
 /*Styles for access.py*/
 
-#div_parent_access_websites{
+#div_parent_access_websites {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.div_markdown {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 2em;
+}
+
+/*First Div HTTP Codes*/
+
+#div_pie_codes_and_histogram_codes {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+}
+
+#pie_ok_not_ok_markdown {
+    display: flex;
+    justify-content: space-evenly;
+    width: 40%;
+}
+
+#histogram_ok_not_ok_codes {
+    border: 1px solid #808080;
+    width: 40%;
+}
+
+#http_codes_ok_not_ok {
+    height: 440px;
+    width: 440px;
+    border: 1px solid #808080;
+    max-height: inherit;
+    box-sizing: border-box;
+}
+
+/*Div Father 30 days*/
+
+#div_30_days {
     display: flex;
     justify-content: space-evenly;
 }
 
-#div_codes_pie_histogram_pie{
-    width: 47%;
-}
-
-#pie_ok_not_ok_markdown{
+#div_average_access_time_and_markdown {
+    width: 40%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    width: 50em;
 }
 
-#average_access_box_plot{
+#average_access_box_plot {
     border: 1px solid #808080;
-    width: 550px;
-    height: 800px;
-    margin: 2%;  
 }
 
-
-.histogram_ok_not_ok{
-    border: 1px solid #808080;
-    width: 95%;
-    height: 600px;
-    margin: 1%;
-    border: 1px solid #808080;
-    max-height : inherit;
-    box-sizing : border-box;
-}
-
-#histogram_days_up{
-    border: 1px solid #808080;
-    width: 50%;
-    height: 600px;
-    margin: 1%;
-    border: 1px solid #808080;
-    max-height : inherit;
-    box-sizing : border-box;
-}
-
-#div_average_access_time_and_markdown{
-    width: 45%;
+#histogram_days_up_and_markdown {
+    width: 40%;
     display: flex;
-    align-items: flex-start;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
+#histogram_days_up {
+    width: 100%;
+    border: 1px solid #808080;
+}
 
 /*Styles for javascript.py*/
 
-
-#boxplot_plot{
+#boxplot_plot {
     height: 1000px;
-
 }
-#div_top_dynamic_websites{
+
+#div_top_dynamic_websites {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -97,7 +106,7 @@ font-size: 35px;
     margin: 0 auto;
 }
 
-#div_scatter_plot_markdown{
+#div_scatter_plot_markdown {
     display: flex;
     align-items: center;
     width: 85em;
@@ -105,102 +114,118 @@ font-size: 35px;
     margin: 0 auto;
 }
 
+@media screen and (min-width: 531px) and (max-width: 1500px) {
+    /* Access*/
+    #div_pie_codes_and_histogram_codes {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    #pie_ok_not_ok_markdown {
+        display: flex;
+        justify-content: space-evenly;
+        width: 90%;
+    }
+    #histogram_ok_not_ok_codes {
+        border: 1px solid #808080;
+        width: 90%;
+    }
+    #pie_ok_not_ok_markdown {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        align-items: center;
+        width: 90%;
+        margin: 2%;
+    }
+    #average_access_box_plot {
+        border: 1px solid #808080;
+        width: 90%;
+    }
+    #div_30_days {
+        display: flex;
+        flex-direction: column;
+    }
+    #div_average_access_time_and_markdown {
+        width: 90%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
 
-@media screen and (min-width: 451px) and (max-width: 1500px){
-
-/* Access*/
-#div_parent_access_websites{
-    display : flex;
-    flex-direction : column;
-    width: 100%;
+    #histogram_days_up_and_markdown {
+        width: 90%;
+    }
 }
 
-#div_codes_pie_histogram_pie{
-    width: 100%;
+@media screen and (min-width: 0px) and (max-width: 530px) {
+    /* Access */
+    #div_pie_codes_and_histogram_codes {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    #div_average_access_time_and_markdown {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    #http_codes_ok_not_ok {
+        width: 100%;
+        border: 1px solid #808080;
+    }
+    #pie_ok_not_ok_markdown {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    #pie_ok_not_ok_markdown {
+        display: flex;
+        justify-content: space-evenly;
+        width: 90%;
+    }
+    #histogram_ok_not_ok_codes {
+        border: 1px solid #808080;
+        width: 98%;
+    }
+    /*Div Father 30 days*/
+    #div_30_days {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    #div_average_access_time_and_markdown {
+        width: 98%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    #average_access_box_plot {
+        width: 90%;
+        border: 1px solid #808080;
+    }
+    #histogram_days_up_and_markdown {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    #histogram_days_up {
+        width: 95%;
+        border: 1px solid #808080;
+    }
+
+    /*Styles for javascript*/
+    #div_top_dynamic_websites {
+        display: flex;
+        flex-direction: column;
+    }
+    #pie_ok_not_ok_markdown {
+        display: flex;
+        flex-direction: column;
+    }
 }
-
-#pie_ok_not_ok_markdown{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-
-}
-
-#div_average_access_time_and_markdown{
-    display : flex;
-    flex-direction : row;
-    justify-content: space-evenly;
-    width: 100%;
-}
-
-
-#pie_ok_not_ok_markdown{
-    display : flex;
-    flex-direction : column;
-    width: 100%;
-}
-
-#layout_pie_charts_and_http_codes{
-    display : flex;
-    flex-direction : column;
-}
-
-.dcc_tabs_class{
-    height: 10em;
-}
-
-.little_plots{
-    margin: 10px;
-    padding: 0;
-}
-
-.six.columns{
-    width: 95%;
-}
-
-#little_plots{
-    padding: 0;
-    margin: 0 auto;
-}
-
-.column, .columns {
-    margin: 0 auto;
-}
-
-
-.pie_chart_dynamic_websites{
-    margin-right: auto;
-}
-
-}
-
-@media screen and (min-width: 0px) and (max-width: 450px){
-
-/*Styles for javascript*/
-
-#div_top_dynamic_websites{
-    display: flex;
-    flex-direction : column;
-}
-
-#pie_ok_not_ok_markdown{
-    display: flex;
-    flex-direction : column;
-
-}
-
-
-
-/* Access */
-
-
-#div_average_access_time_and_markdown{
-    display : flex;
-    flex-direction : column;
-    width: 100%;
-}
-
-
-}
-

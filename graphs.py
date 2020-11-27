@@ -99,7 +99,7 @@ def giving_onthology(domain):
     elif domain in institucional:
         return "Institutional"
     else:
-        return "others"
+        return "Others"
 
 
 
