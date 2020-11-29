@@ -62,7 +62,7 @@ def get_initial_values_for_update():
 
 
 """
-GRAPHS
+GRAPHS DOMAINS
 
 """
 def giving_onthology_colors(domain):
@@ -115,7 +115,7 @@ def create_pie_chart(values_list, labels_list, title_pie):
     pie = go.Figure(
         data=[go.Pie(labels=labels_list, values=values_list, hole=0.55)])
     pie.update_traces(hoverinfo='value', marker=dict(colors=colors))
-    pie.update_layout(title=f"<b>{title_pie} ({str(sum(values_list))})</b>", title_x=0.5,
+    pie.update_layout(title=f"<b>{title_pie} ({int(sum(values_list)):,})</b>", title_x=0.5,
                       legend_orientation="h", title_font_family="Arial", title_font_color="#383838")
     return pie
 
@@ -154,7 +154,7 @@ def create_histogram_domains(values, values_col1, values_col2):
     return create_px_bar(df, "Count", "Domain", "Primary classification about domains in tools", 'Procedence', df.color.unique())
 
 """
-Graphs for the tab Homepages -> Acces
+GRAPHS ACCESS
 """
 
 def create_px_bar_http_codes(df, x_value, y_value, title_given, color_given):
@@ -217,9 +217,22 @@ def create_px_bar_days_up(df, x_value, y_value, title_given, color_given):
 
 
 """
-Graphs for the tab Homepages -> JavaScript
+GRAPHS JavaScript
 
 """
+
+def create_scatter_plot_publications(df):
+    fig = px.scatter(df, x="year", 
+                        y="percentage_of_change", 
+                        color="Procedence", 
+                        color_discrete_sequence=df.color.unique(),
+                        labels={"percentage_of_change": "Percentage of change",
+                         'year': 'Year'},
+                         template="simple_white",
+                         hover_name="year"
+                    )
+    fig.update_layout(bargap=0.4,title=f"<b>Correlationship between percentage of change and year of publication ({len(df)})</b>",  title_font_family="Arial", title_x=0.5)
+    return fig
 
 def create_scatter_plot(df):
     fig = px.scatter(df, x="year", 
@@ -289,3 +302,9 @@ def crate_box_plot_from_df(title_given, df):
     # fig.update_xaxes(ticks="outside", tickfont=dict(family='Arial', color='black'))
     fig.update_xaxes(tickfont_size=20, ticks="outside", ticklen=1, tickwidth=1)
     return fig
+
+
+"""
+
+GRAPHS PUBLICATIONS
+"""
