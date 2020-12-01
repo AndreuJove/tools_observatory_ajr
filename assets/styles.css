@@ -125,6 +125,18 @@
     margin: 0 auto;
 }
 
+
+/*Styles button info*/
+
+
+.info-icon {
+    float: right;
+    cursor: pointer;
+    height: 2.2rem;
+    width: 2.2rem;
+    margin: 0.2rem;
+  }
+
 @media screen and (min-width: 531px) and (max-width: 1500px) {
     /* Access*/
     #div_pie_codes_and_histogram_codes {

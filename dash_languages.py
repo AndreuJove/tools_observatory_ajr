@@ -58,7 +58,6 @@ def create_scatter_plot_years(series, column_name_1, column_name_2):
                         )
     return fig
 
-fig_year = create_scatter_plot_years(df_publications['Year'], "Year", "Tools")
 
 def create_scatter_plot_authors(series, column_name_1, column_name_2):
     dict_counter = dict(collections.Counter(series.dropna().to_list()))
@@ -76,7 +75,7 @@ def create_scatter_plot_authors(series, column_name_1, column_name_2):
     fig.update_traces(mode='lines+markers')
     return fig
 
-fig_authors = create_scatter_plot_authors(df_publications['Authors'], "Number of Authors", "Tools")
+
 
 
 def create_scatter_citations_references(series, column_name_1, column_name_2):
@@ -96,9 +95,7 @@ def create_scatter_citations_references(series, column_name_1, column_name_2):
 
 
 
-fig_citations = create_scatter_citations_references(df_publications['Citations'], "Number of Citations", "Tools")
-
-fig_references = create_scatter_citations_references(df_publications['References'], "Number of References", "Tools")
+ 
 
 # Dash HTML:
 external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
@@ -190,7 +187,7 @@ app.layout = html.Div(
             children=[
                 dcc.Markdown(
                     children=[f'''
-                                        Stadistics obtained from the tools with publication.
+                                        General stadistics from the tools with publication.
 
                                         ''']
                             )               
@@ -201,14 +198,14 @@ app.layout = html.Div(
             
             children=[
                 dcc.Graph(id='line_authors',
-                                    figure=fig_authors,
+                                    figure=create_scatter_plot_authors(df_publications['Authors'], "Number of Authors", "Tools"),
                                   style={'height': '750px', "width" : "950px",'margin': '1% auto', 'border': '1px solid #808080',
                                          'maxHeight': 'inherit'},
                                   config={"displaylogo": False, "displayModeBar": False, "showTips": False,
                                           'modeBarButtonsToRemove': ['pan2d', 'lasso2d']}
                                           ),
                 dcc.Graph(id='line_years',
-                                figure=fig_year,
+                                figure=create_scatter_plot_years(df_publications['Year'], "Year", "Tools"),
                                 style={'height': '750px', "width" : "950px",'margin': '1% auto', 'border': '1px solid #808080',
                                         'maxHeight': 'inherit'},
                                 config={"displaylogo": False, "displayModeBar": False, "showTips": False,
@@ -222,14 +219,14 @@ app.layout = html.Div(
             
             children=[
                 dcc.Graph(id='px_line_citations',
-                                    figure=fig_citations,
+                                    figure=create_scatter_citations_references(df_publications['Citations'], "Citations", "Tools"),
                                   style={'height': '750px', "width" : "950px",'margin': '1% auto', 'border': '1px solid #808080',
                                          'maxHeight': 'inherit'},
                                   config={"displaylogo": False, "displayModeBar": False, "showTips": False,
                                           'modeBarButtonsToRemove': ['pan2d', 'lasso2d']}
                                           ),
                 dcc.Graph(id='px_line_references',
-                                figure=fig_references,
+                                figure=create_scatter_citations_references(df_publications['References'], "References", "Tools"),
                                 style={'height': '750px', "width" : "950px",'margin': '1% auto', 'border': '1px solid #808080',
                                         'maxHeight': 'inherit'},
                                 config={"displaylogo": False, "displayModeBar": False, "showTips": False,
