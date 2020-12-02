@@ -15,7 +15,7 @@ path_metrics = "new_input_data/extracted_metrics.json"
 with open(path_metrics, "r") as l:
     metrics = json.load(l)
 
-df_total_percentages = pd.read_json("new_input_data/final_df_years_percentages.json")
+df_total_percentages = pd.read_json("new_input_data/df_years_percentages.json")
 
 # Get external CSS:
 external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
@@ -145,35 +145,35 @@ app.layout = html.Div(
                                           'modeBarButtonsToRemove': ['pan2d', 'lasso2d']}),
                     ]),
 
-                        html.Div(
-                            id="div_scatter_plot_markdown",
-                            children=[
-                                dcc.Graph(id='scatter_plot',
-                                    figure=graphs.create_scatter_plot(df_only_years),
-                                  style={'height': '750px', "width" : "950px",'margin': '1% auto', 'border': '1px solid #808080',
-                                         'maxHeight': 'inherit'},
-                                  config={"displaylogo": False, "displayModeBar": False, "showTips": False,
-                                          'modeBarButtonsToRemove': ['pan2d', 'lasso2d']}
-                                          ),
+                        # html.Div(
+                        #     id="div_scatter_plot_markdown",
+                        #     children=[
+                        #         dcc.Graph(id='scatter_plot',
+                        #             figure=graphs.create_scatter_plot(df_only_years),
+                        #           style={'height': '750px', "width" : "950px",'margin': '1% auto', 'border': '1px solid #808080',
+                        #                  'maxHeight': 'inherit'},
+                        #           config={"displaylogo": False, "displayModeBar": False, "showTips": False,
+                        #                   'modeBarButtonsToRemove': ['pan2d', 'lasso2d']}
+                        #                   ),
 
-                                dcc.Markdown(
-                                            children= '''
-                                            *This plot pretends*
+                        #         dcc.Markdown(
+                        #                     children= '''
+                        #                     *This plot pretends*
                                             
-                                            *to find correlationship*
+                        #                     *to find correlationship*
 
-                                            *between the Year of*
+                        #                     *between the Year of*
 
-                                            *publication of the*
+                        #                     *publication of the*
                                             
-                                            *tool and the percentage*
+                        #                     *tool and the percentage*
 
-                                            *of change of the*
+                        #                     *of change of the*
 
-                                            *website of the tool.*''',                                             
-                                            )     
-                                    ]
-                        )
+                        #                     *website of the tool.*''',                                             
+                        #                     )     
+                        #             ]
+                        # )
                     ]
                 )]
         )
