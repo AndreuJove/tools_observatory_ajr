@@ -43,37 +43,44 @@ def create_pie_chart_button(values_list, labels_list, title_pie):
 
 
 app.layout = dbc.Card(
+    style={"width" : "400px", "border" : "1px solid #808080", "margin" : "10px auto"},
     
     children=[
         dbc.CardBody(
             
             [
-                html.H4("Graffiti in Berlin 2012-2019", className="card-title", style={"text-align": "center"}),
                 html.Div(
+                    style={"height" : "27px", "backgroundColor" : "white"},
                     children=[html.Img(
                                         id="popover-bottom-target",
-                                        src="images/question-circle-solid.svg",
+                                        src="assets/boton-de-informacion.svg",
                                         n_clicks=0,
                                         className="info-icon",
-                                        style={"margin": 0},
+                                        style={"margin": "5px"},
                                     )
                     ]
                 ),
-                # dbc.Button(
-                #     "About Berlin", id="popover-bottom", color="danger"
-                # ),
                 dbc.Popover(
                     [
-                        dbc.PopoverHeader("All About Berlin:"),
+                        dbc.PopoverHeader("HTTP vs HTTPS"),
                         dbc.PopoverBody(
-                            "Berlin (/bɜːrˈlɪn/; German: [bɛʁˈliːn] is the capital and largest city of Germany by both area and population. Its 3,769,495 (2019) inhabitants make it the most populous city proper of the European Union. The city is one of Germany's 16 federal states. It is surrounded by the state of Brandenburg, and contiguous with Potsdam, Brandenburg's capital. The two cities are at the center of the Berlin-Brandenburg capital region, which is, with about six million inhabitants and an area of more than 30,000 km2, Germany's third-largest metropolitan region after the Rhine-Ruhr and Rhine-Main regions. (Wikipedia)"),
+                            children=[
+                                html.P("HTTP: unsecured Hypertext Transfer Protocol. Does not require domain validation. No encryption."),
+                                html.P("HTTPS: secure Hypertext Transfer Protocol. Requires domain validation. Encryption."),
+                            
+                            ],
+                            style={"padding" : "15px"}
+                            ),
                     ],
                     id="popover",
                     target="popover-bottom-target",  # needs to be the same as dbc.Button id
                     placement="bottom",
                     is_open=False,
+                    style={"backgroundColor" : "white"}
                 ),
-                dcc.Graph(id='line_chart', figure=create_pie_chart_button(
+                dcc.Graph(id='line_chart', 
+                            
+                            figure=create_pie_chart_button(
                                         graphs.metrics["bioschemas_ssl_https_license"][-1]["total"]["https"], ['HTTPS', 'HTTP'], "HTTP vs HTTPS")),
 
             ]

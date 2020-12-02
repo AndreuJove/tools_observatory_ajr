@@ -95,17 +95,6 @@ def giving_onthology(domain):
     else:
         return "others"
 
-def create_px_bar(df, x_value, y_value, title_given, color_given, discrete_sequence):
-    # Create px bar for domains
-    fig = px.bar(df, x=x_value, y=y_value, log_x=True, color=color_given,
-                 color_discrete_sequence=discrete_sequence,
-                 template='simple_white', orientation='h',
-                 hover_data={x_value: False, y_value: False},
-                 hover_name=x_value)
-    fig.update_layout(yaxis_categoryorder='total ascending', bargap=0.4,
-                      title=title_given, title_x=0.5, title_font_family="Arial", title_font_color="#383838")
-    fig.update_yaxes(showticklabels=True)
-    return fig
 
 # Colors for all pies chart:
 colors = ['#1976d3', '#64b5f6']
@@ -126,12 +115,29 @@ def create_bar_http_codes(dict_values_codes):
     fig_hist = px.bar(df_http_codes, x="HTTP code", y="Count", color_discrete_sequence=df_http_codes.color.unique(
     ), log_y=True, template='none', hover_data={'HTTP code': False, 'Count': False}, hover_name="Count")
     fig_hist.update_layout(xaxis_type='category', bargap=0.5, yaxis_visible=False, yaxis_showticklabels=False,
-                           title="Resume HTTP Codes" + " ("+str(sum(dict_values_codes.values()))+")", title_x=0.5, title_font_family="Arial", title_font_color="#383838")
+                           title=f"<b>Resume HTTP Codes ({sum(dict_values_codes.values()):,})</b>", title_x=0.5, title_font_family="Arial", title_font_color="#383838")
     return fig_hist
+
+
+
+# TAB DOMAINS:
+def create_px_bar(df, x_value, y_value, title_given, color_given, discrete_sequence):
+    # Create px bar for domains
+    df = df[:40]
+    fig = px.bar(df, x=x_value, y=y_value, log_x=True, color=color_given,
+                 color_discrete_sequence=discrete_sequence,
+                 template='simple_white', orientation='h',
+                 hover_data={x_value: False, y_value: False},
+                 hover_name=x_value)
+    fig.update_layout(yaxis_categoryorder='total ascending', bargap=0.4,
+                      title=f"<b>{title_given} {df['Count'].sum():,} websites</b>", title_x=0.5, title_font_family="Arial", title_font_color="#383838")
+    fig.update_yaxes(showticklabels=True)
+    return fig
+
 
 def create_histogram_domains(values, values_col1, values_col2):
     # Plot histogram domains:
-    if not values or values == ['others']:
+    if not values:
         df = pd.DataFrame(
             {"Domain": values_col1, "Count": values_col2}).iloc[::-1]
         df['Count'] = 0
@@ -147,11 +153,13 @@ def create_histogram_domains(values, values_col1, values_col2):
             values[i] = "Life Sciences"
         elif t == 'generic':
             values[i] = "Generic"
+        elif t == "others":
+            values[i] = "others"
     df = pd.DataFrame({"Domain": values_col1, "Count": values_col2}).iloc[::-1]
     df['color'] = df['Domain'].apply(giving_onthology_colors)
     df['Procedence'] = df['Domain'].apply(giving_onthology)
     df = df[df['Procedence'].isin(values)]
-    return create_px_bar(df, "Count", "Domain", "Primary classification about domains in tools", 'Procedence', df.color.unique())
+    return create_px_bar(df, "Count", "Domain", "Domains classification of", 'Procedence', df.color.unique())
 
 """
 GRAPHS ACCESS
@@ -175,9 +183,9 @@ def create_px_bar_http_codes(df, x_value, y_value, title_given, color_given):
                             automargin=True,
                             
                         ),
-                      title=f"<b>{title_given} ({df[y_value].sum()})</b>", title_x=0.5
+                      title=f"<b>{title_given} ({df[y_value].sum():,})</b>", title_x=0.5
                       )
-    fig.update_xaxes(tickfont_size=50, tickfont_color="Black")
+    
     return fig
 
 def create_box_plot_time_access(df):
@@ -221,18 +229,7 @@ GRAPHS JavaScript
 
 """
 
-def create_scatter_plot_publications(df):
-    fig = px.scatter(df, x="year", 
-                        y="percentage_of_change", 
-                        color="Procedence", 
-                        color_discrete_sequence=df.color.unique(),
-                        labels={"percentage_of_change": "Percentage of change",
-                         'year': 'Year'},
-                         template="simple_white",
-                         hover_name="year"
-                    )
-    fig.update_layout(bargap=0.4,title=f"<b>Correlationship between percentage of change and year of publication ({len(df)})</b>",  title_font_family="Arial", title_x=0.5)
-    return fig
+
 
 def create_scatter_plot(df):
     fig = px.scatter(df, x="year", 
@@ -277,7 +274,7 @@ def crate_box_plot_from_df(title_given, df):
     fig = px.box(df, x="domain", y="percentage_of_change", color="domain",
                  points='all',
                  hover_data={"domain": False,
-                             "percentage_of_change": False, "first_url": False},
+                             "percentage_of_change": False, "first_url": True},
                  hover_name="year",
                  template='simple_white',
                  labels={"percentage_of_change": "Percentage of change",

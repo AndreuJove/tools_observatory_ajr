@@ -177,9 +177,10 @@ app.layout = html.Div(
 
                                                                             *As shown in the plot*
                                                                             
-                                                                            *AAT is related with*
+                                                                            *AAT is directly related*
+                                                                            
+                                                                            *with the redirections (3xx).*
 
-                                                                            *the redirections (3xx).*
 
                                                                             '''],
                                                                 style={
@@ -207,11 +208,13 @@ app.layout = html.Div(
                                                                         '''],
 
                                                             style={
+                                                                "marginTop" : "10px",
                                                                 "fontSize": "20px"})
 
                                             ])
                             ]
-                        )
+                        ),
+        html.Hr(style={"margin": "4em"})
     ])
 
 @app.callback(
@@ -226,6 +229,5 @@ def display_hover_data(hoverData):
         return fig_http_codes_ok
 
 
-PORT = 8000
 if __name__ == '__main__':
-    app.run_server(debug=True, port=PORT)
+    app.run_server(debug=True)

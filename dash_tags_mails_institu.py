@@ -491,8 +491,6 @@ app.layout = html.Div(
     [Input('my-range-slider', 'value')]
 )
 def build_graph(years):
-
-    print(years)
     return create_bar_plot_languages(years)
 
 

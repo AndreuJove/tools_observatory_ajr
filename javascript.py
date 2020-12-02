@@ -15,7 +15,7 @@ path_metrics = "new_input_data/extracted_metrics.json"
 with open(path_metrics, "r") as l:
     metrics = json.load(l)
 
-df_total_percentages = pd.read_json("../websites_analysis/output_data_website_analysis/final_df_years_percentages.json")
+df_total_percentages = pd.read_json("new_input_data/final_df_years_percentages.json")
 
 # Get external CSS:
 external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
@@ -82,6 +82,19 @@ app.layout = html.Div(
                                 ''')  
 
                     ]),
+        html.Hr(style={"margin": "3em"}),
+        html.Div(
+            style={'textAlign': 'center'},
+            children=[
+                dcc.Markdown(
+                    children=[f'''
+                                        *The following plots have being calculated from the **{len(df_javaScript)}** dynamic websites.* 
+
+                                        '''],  style={"fontSize": "23px"})
+            ]
+        ),
+        html.Div(style={"margin" : "1em"}),
+        
         html.Div(
             style={'backgroundColor': '#f6f6f6',
                    'display': 'flex', 'flexDirection': 'column'},

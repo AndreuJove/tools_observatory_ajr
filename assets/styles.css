@@ -19,7 +19,7 @@
     box-sizing: border-box;
 }
 
-/*Styles for access.py*/
+/*Access: Styles for access.py*/
 
 #div_parent_access_websites {
     display: flex;
@@ -33,7 +33,7 @@
     margin-bottom: 2em;
 }
 
-/*First Div HTTP Codes*/
+/*Access: First Div HTTP Codes*/
 
 #div_pie_codes_and_histogram_codes {
     display: flex;
@@ -45,12 +45,13 @@
 #pie_ok_not_ok_markdown {
     display: flex;
     justify-content: space-evenly;
-    width: 40%;
+    align-items: center;
+    width: 45%;
 }
 
 #histogram_ok_not_ok_codes {
     border: 1px solid #808080;
-    width: 40%;
+    width: 45%;
 }
 
 #http_codes_ok_not_ok {
@@ -64,7 +65,7 @@
 
 
 
-/*Div Father 30 days*/
+/*Access: Div Father 30 days*/
 
 #div_30_days {
     display: flex;
@@ -74,10 +75,14 @@
 #div_average_access_time_and_markdown {
     width: 40%;
     display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
     align-items: center;
 }
 
 #average_access_box_plot {
+    width: 50%;
+    height: 700px;
     border: 1px solid #808080;
 }
 
@@ -100,6 +105,9 @@
     height: 1000px;
 }
 
+#histogram_dynamic_percentages{
+    height: 750px;
+}
 
 #pie_dynamic_not_dynamic {
     height: 440px;
@@ -173,7 +181,7 @@
     #div_average_access_time_and_markdown {
         width: 90%;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         align-items: center;
     }
 
@@ -205,11 +213,7 @@
         align-items: center;
         width: 100%;
     }
-    #pie_ok_not_ok_markdown {
-        display: flex;
-        justify-content: space-evenly;
-        width: 90%;
-    }
+
     #histogram_ok_not_ok_codes {
         border: 1px solid #808080;
         width: 98%;
@@ -247,8 +251,5 @@
         display: flex;
         flex-direction: column;
     }
-    #pie_ok_not_ok_markdown {
-        display: flex;
-        flex-direction: column;
-    }
+
 }
