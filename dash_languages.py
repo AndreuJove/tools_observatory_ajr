@@ -8,7 +8,6 @@ import dash
 import collections
 import json
 
-
 def create_px_bar_animated_frame(df_final, x_value, y_value, title_given):
     fig_animation = px.bar(df_final, x=x_value, y=y_value, 
                             log_x=True, color=y_value, 
@@ -27,8 +26,6 @@ def create_px_bar_animated_frame(df_final, x_value, y_value, title_given):
     fig_animation.layout.updatemenus[0].buttons[0].args[1]["frame"]["duration"] = 550
     return fig_animation
 
-
-
 path_metrics = "new_input_data/publications.json"
 with open(path_metrics, "r") as l:
     publications_json = json.load(l)
@@ -36,7 +33,6 @@ with open(path_metrics, "r") as l:
 df_final_languages = pd.DataFrame(publications_json['df_languages'])
 
 df_publications = pd.DataFrame(publications_json['df_publications'])
-
 
 def create_scatter_plot_years(series, column_name_1, column_name_2):
     dict_counter = dict(collections.Counter(series.dropna().to_list()))
@@ -58,8 +54,8 @@ def create_scatter_plot_years(series, column_name_1, column_name_2):
                         )
     return fig
 
-
 def create_scatter_plot_authors(series, column_name_1, column_name_2):
+    # scatter plot authors by series of dataframe
     dict_counter = dict(collections.Counter(series.dropna().to_list()))
     df = pd.DataFrame([(int(float(t[0])), t[1]) for t in dict_counter.items()],columns = [column_name_1,column_name_2])
     df = df.sort_values(by=column_name_1).reset_index(drop=True)
@@ -74,9 +70,6 @@ def create_scatter_plot_authors(series, column_name_1, column_name_2):
                         title_x=0.5)
     fig.update_traces(mode='lines+markers')
     return fig
-
-
-
 
 def create_scatter_citations_references(series, column_name_1, column_name_2):
     dict_counter = dict(collections.Counter(series.dropna().to_list()))
@@ -93,9 +86,6 @@ def create_scatter_citations_references(series, column_name_1, column_name_2):
                         title_x=0.5)
     return fig
 
-
-
- 
 
 # Dash HTML:
 external_stylesheets = ["https://codepen.io/chriddyp/pen/bWLwgP.css"]
@@ -119,7 +109,9 @@ app.layout = html.Div(
                     id='pie_dynamic_not_dynamic',
                     figure=create_pie_chart(
                                       publications_json['all_tools_vs_tools_publications'], ['Publications', 'No Publications'], "Publications in Bioinformatics Tools"),
-                                      config={"displaylogo": False, 'modeBarButtonsToRemove': ['pan2d', 'lasso2d']}),
+                                      config={
+                                      'displayModeBar': False,
+                                      'displaylogo': False}),
                     dcc.Markdown(
                             children= '''
                                 *We understand for *

@@ -163,7 +163,8 @@ app.layout = html.Div(
                                                         placement="bottom",
                                                         is_open=False,
                                                         style={
-                                                            "backgroundColor": "white"}
+                                                                            "backgroundColor": "white", "border": "1px solid #808080", "borderRadius" : "5px",
+                                                                                    "padding": "15px"}
                                                     ),
                                                     dcc.Graph(id='pie_chart_1',
 
@@ -220,7 +221,8 @@ app.layout = html.Div(
                                                         placement="bottom",
                                                         is_open=False,
                                                         style={
-                                                            "backgroundColor": "white"}
+                                                                "backgroundColor": "white", "border": "1px solid #808080", "borderRadius" : "5px",
+                                                                                    "padding": "15px"}
                                                     ),
                                                     dcc.Graph(id='pie_chart_2',
                                                             figure=graphs.create_pie_chart(graphs.metrics["bioschemas_ssl_https_license"][-1]["total"]["bioschemas"],
@@ -277,7 +279,8 @@ app.layout = html.Div(
                                                                 placement="bottom",
                                                                 is_open=False,
                                                                 style={
-                                                                    "backgroundColor": "white"}
+                                                                            "backgroundColor": "white", "border": "1px solid #808080", "borderRadius" : "5px",
+                                                                                    "padding": "15px"}
                                                             ),
                                                             dcc.Graph(id='pie_chart_3',
                                                                     figure=graphs.create_pie_chart(
@@ -301,19 +304,21 @@ app.layout = html.Div(
                                                                 [
                                                                     html.Div(
                                                                         style={
-                                                                            "height": "27px", "backgroundColor": "white"},
+                                                                            "height": "30px", "backgroundColor": "white"},
                                                                         children=[html.Img(
                                                                             id="popover-bottom-target_4",
                                                                             src="assets/boton-de-informacion.svg",
                                                                             n_clicks=0,
                                                                             className="info-icon",
                                                                             style={
-                                                                                "margin": "5px"},
+                                                                                "margin": "6px"},
                                                                                         )   
                                                                         ]
                                                                     ),
                                                                     dbc.Popover(
-                                                                        [
+                                                                        # style={"border": "1px solid #808080",
+                                                                        #             "padding": "15px"},
+                                                                        children=[
                                                                             dbc.PopoverHeader(
                                                                                 "HTTP Codes"),
                                                                             dbc.PopoverBody(
@@ -323,16 +328,18 @@ app.layout = html.Div(
                                                                                     html.A(
                                                                                         "HTTP response status codes.", href='https://developer.mozilla.org/en-US/docs/Web/HTTP/Status', target="_blank")
                                                                                 ],
-                                                                                style={
-                                                                                    "padding": "15px"}
+                                                                           
+                                                                                
                                                                             ),
                                                                         ],
+                                                                         
                                                                         id="popover_4",
                                                                         target="popover-bottom-target_4",
                                                                         placement="bottom",
                                                                         is_open=False,
                                                                         style={
-                                                                            "backgroundColor": "white"}
+                                                                            "backgroundColor": "white", "border": "1px solid #808080", "borderRadius" : "5px",
+                                                                                    "padding": "15px"}
                                                                     ),
                                                                     dcc.Graph(id='histogram_HTTP_codes',
                                                                             figure=graphs.create_bar_http_codes(
@@ -436,7 +443,7 @@ def update_graph(values):
     final_dict_http_codes = {
         x: 0 for x in graphs.metrics['http_codes_by_classification'][-1]["total"]}
     if not values:
-        return graphs.create_pie_chart(final_values_http, ['HTTPS', 'HTTP'], "HTTP vs HTTPS"), graphs.create_pie_chart(final_values_bioschema, ['Bioschemas', 'No bioschemas'], "BIOSCHEMAS"), graphs.create_pie_chart(final_values_ssl, ['SSL', 'No SSL'], "SSL Certificates"),  graphs.create_bar_http_codes(final_dict_http_codes), graphs.create_histogram_domains(values, graphs.domains, graphs.values_36)
+        return graphs.create_pie_chart(final_values_http, ['HTTPS', 'HTTP'], "HTTP vs HTTPS"), graphs.create_pie_chart(final_values_bioschema, ['Yes', 'No'], "BIOSCHEMAS"), graphs.create_pie_chart(final_values_ssl, ['SSL', 'No SSL'], "SSL Certificates"),  graphs.create_bar_http_codes(final_dict_http_codes), graphs.create_histogram_domains(values, graphs.domains, graphs.values_36)
     if values and 'clear' not in values:
         for index, t in enumerate(values):
             if t in all_http_codes.keys():
@@ -449,7 +456,7 @@ def update_graph(values):
                 for i in final_dict_http_codes:
                     if i in all_http_codes_for_hist[t]:
                         final_dict_http_codes[i] += all_http_codes_for_hist[t][i]
-        return graphs.create_pie_chart(final_values_http, ['HTTPS', 'HTTP'], "HTTP vs HTTPS"), graphs.create_pie_chart(final_values_bioschema, ['Bioschemas', 'No bioschemas'], "BIOSCHEMAS"), graphs.create_pie_chart(final_values_ssl, ['SSL', 'No SSL'], "SSL Certificates"), graphs.create_bar_http_codes(final_dict_http_codes), graphs.create_histogram_domains(values, graphs.domains, graphs.values_36)
+        return graphs.create_pie_chart(final_values_http, ['HTTPS', 'HTTP'], "HTTP vs HTTPS"), graphs.create_pie_chart(final_values_bioschema, ['Yes', 'No'], "BIOSCHEMAS"), graphs.create_pie_chart(final_values_ssl, ['SSL', 'No SSL'], "SSL Certificates"), graphs.create_bar_http_codes(final_dict_http_codes), graphs.create_histogram_domains(values, graphs.domains, graphs.values_36)
     return graphs.create_pie_chart(graphs.metrics["bioschemas_ssl_https_license"][-1]["total"]["https"], ['HTTPS', 'HTTP'], "HTTP vs HTTPS"), graphs.create_pie_chart(graphs.metrics["bioschemas_ssl_https_license"][-1]["total"]["bioschemas"], ['Bioschemas', 'No bioschemas'], "BIOSCHEMAS"), graphs.create_pie_chart(graphs.metrics["bioschemas_ssl_https_license"][-1]["total"]["ssl"], ['SSL', 'No SSL'], "SSL Certificates"), graphs.create_bar_http_codes(graphs.metrics['http_codes_by_classification'][-1]["total"]), graphs.create_histogram_domains(
         ['Universities', 'Institutional', 'Tools Collections', 'Generic',  'Life Sciences', 'others'], graphs.domains, graphs.values_36)
 

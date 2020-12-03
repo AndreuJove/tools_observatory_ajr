@@ -88,7 +88,7 @@ app.layout = html.Div(
             children=[
                 dcc.Markdown(
                     children=[f'''
-                                        *The following plots have being calculated from the **{len(df_javaScript)}** dynamic websites.* 
+                                        *The following plots have being calculated from the **{len(df_javaScript):,}** dynamic websites.* 
 
                                         '''],  style={"fontSize": "23px"})
             ]

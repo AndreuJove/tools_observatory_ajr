@@ -60,9 +60,9 @@ app.layout = html.Div(
             children=[
                 dcc.Markdown(
                     children=[f'''
-                                        *The following plots have being calculated from the **{len(data['df_acces'])}** unique websites* 
+                                        *The following plots have being calculated from the **{len(data['df_acces']):,}** unique websites* 
                                         
-                                        *from an amount of **{data['total_len_tools']}** bioinformatics tools.*
+                                        *from an amount of **{data['total_len_tools']:,}** bioinformatics tools.*
 
                                         '''],  style={"fontSize": "23px"})
             ]
@@ -74,7 +74,7 @@ app.layout = html.Div(
             children=[
                 dcc.Markdown(
                     children=[f'''
-                                        HTTP Codes recieved and classified from {len(data['df_acces'])} unique websites.
+                                        HTTP Codes recieved and classified from {len(data['df_acces']):,} unique websites.
                                         
                                         For more information visit:
 

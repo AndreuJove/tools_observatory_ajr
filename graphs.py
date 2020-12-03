@@ -218,7 +218,7 @@ def create_px_bar_days_up(df, x_value, y_value, title_given, color_given):
                     hover_name=y_value
                 )
     fig.update_layout(  bargap=0.4, 
-                        title=f"<b> {title_given} ({df[y_value].sum()} websites) <b>", 
+                        title=f"<b> {title_given} ({df[y_value].sum():,} websites) <b>", 
                         title_x=0.5
                     )
     return fig
@@ -260,7 +260,7 @@ def create_fig_bar_percentage_of_change(df, title_given):
     fig_bar = px.bar(x=bins, y=counts, labels={'x': 'Percentage of change', 'y': 'Count'}, log_y=True, template="simple_white", 
                      hover_name=counts)
     fig_bar.update_traces(marker_color='#7bc0f7')
-    fig_bar.update_layout(title=f"<b>Percentage of change of dynamic websites in {title_given} ({total})</b>",
+    fig_bar.update_layout(title=f"<b>Percentage of change of dynamic websites in {title_given} ({total:,})</b>",
                           title_x=0.5, title_font_family="Arial", title_font_color="#383838")
     return fig_bar
 
@@ -288,7 +288,7 @@ def crate_box_plot_from_df(title_given, df):
         list_change[i] = f"{domain} ({count_df}/{count_total})"
 
     fig.update_layout(showlegend=False,
-                      title=f"<b>Dynamic domains in {title_given} ({total_df}) + Year of Publication of the tool</b>",
+                      title=f"<b>Dynamic domains in {title_given} ({total_df:,}) + Years of the Publications of the tool</b>",
                       title_x=0.5, title_font_family="Arial", 
                       title_font_color="#383838",
                       xaxis=dict(
@@ -297,7 +297,7 @@ def crate_box_plot_from_df(title_given, df):
                                 )
                     )
     # fig.update_xaxes(ticks="outside", tickfont=dict(family='Arial', color='black'))
-    fig.update_xaxes(tickfont_size=20, ticks="outside", ticklen=1, tickwidth=1)
+    # fig.update_xaxes(tickfont_size=20, ticks="outside", ticklen=1, tickwidth=1)
     return fig
 
 
